@@ -5,8 +5,8 @@ This module applies action effects and updates the world state.
 """
 
 import random
-from actions import Action, ACTION_PROPERTIES
-from state import RobotState, ActionResult
+from core.actions import Action, ACTION_PROPERTIES
+from core.state import RobotState, ActionResult
 
 
 class RobotSimulator:

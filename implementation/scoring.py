@@ -1,17 +1,14 @@
 """
-*** STUDENT FILE ***
+Action scoring and evaluation system.
 
-Scoring system for evaluating robot actions.
-
-YOUR TASK:
-Implement the score_action() function to evaluate how "good" each action is
-given the current state.
-
-The robot will use these scores to decide what to do!
+This module implements the scoring logic that evaluates the quality of
+each possible action in a given state. The score_action() function returns
+higher scores for more desirable actions, enabling the decision-making
+system to select optimal behaviors.
 """
 
-from actions import Action
-from state import RobotState
+from core.actions import Action
+from core.state import RobotState
 
 
 def score_action(action: Action, state: RobotState) -> float:

@@ -1,19 +1,15 @@
 """
-*** STUDENT FILE ***
-
 Decision-making logic for the assistive robot.
 
-YOUR TASK:
-Implement the choose_action() function to select the best action
-given the current state.
-
-This is the robot's "brain"!
+This module implements the core decision-making algorithm that selects
+the best action based on the current state. Customize the choose_action()
+function to define the robot's behavior and decision strategy.
 """
 
-from actions import Action
-from state import RobotState
-from scoring import score_action
-from constraints import is_action_allowed
+from core.actions import Action
+from core.state import RobotState
+from implementation.scoring import score_action
+from core.constraints import is_action_allowed
 
 
 def choose_action(state: RobotState) -> Action:

@@ -5,8 +5,8 @@ These are HARD RULES that prevent dangerous or nonsensical actions.
 Students don't edit this — it's the "safety layer."
 """
 
-from actions import Action
-from state import RobotState
+from core.actions import Action
+from core.state import RobotState
 
 
 def is_action_allowed(action: Action, state: RobotState) -> tuple[bool, str]:
