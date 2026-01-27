@@ -5,10 +5,10 @@ This demonstrates a more sophisticated decision strategy.
 Students should develop their own approach - this is just one example!
 """
 
-from actions import Action
-from state import RobotState
+from core.actions import Action
+from core.state import RobotState
 from solutions.solution_scoring import score_action
-from constraints import is_action_allowed
+from core.constraints import is_action_allowed
 
 
 def choose_action(state: RobotState) -> Action:

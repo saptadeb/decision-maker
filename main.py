@@ -4,12 +4,12 @@ Main simulation runner for the Assistive Robot AI Workshop.
 Run this file to test your AI implementation!
 """
 
-from state import RobotState
-from actions import Action
-from simulator import RobotSimulator
-from decision import choose_action
-from constraints import is_action_allowed, get_constraint_warnings
-from metrics import PerformanceMetrics
+from core.state import RobotState
+from core.actions import Action
+from core.simulator import RobotSimulator
+from implementation.decision import choose_action
+from core.constraints import is_action_allowed, get_constraint_warnings
+from core.metrics import PerformanceMetrics
 
 
 def run_scenario(name: str, initial_state: RobotState, max_steps: int = 10) -> dict:
@@ -196,7 +196,7 @@ def main():
     metrics.display_metrics("YOUR AI PERFORMANCE METRICS")
     
     # Optionally save metrics for comparison
-    metrics.save_to_file("my_metrics.json")
+    metrics.save_to_file("output/my_metrics.json")
     
     print("\nNext step: Edit decision.py and scoring.py to improve behavior!")
     print("Compare with solution: python solutions/solution.py")

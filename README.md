@@ -10,10 +10,10 @@ This workshop explores **AI decision-making** through a simulated assistive robo
 
 ## Your Task
 
-You will implement the robot's "brain" by editing **only 2 files**:
+You will implement the robot's "brain" by editing **only 2 files** in the `implementation/` directory:
 
-1. **`scoring.py`** — Define how the robot evaluates each action
-2. **`decision.py`** — Implement the logic to choose the best action
+1. **`implementation/scoring.py`** — Define how the robot evaluates each action
+2. **`implementation/decision.py`** — Implement the logic to choose the best action
 
 ---
 
@@ -50,9 +50,9 @@ python main.py
 
 This runs with placeholder AI logic. The robot will make poor decisions!
 
-### 2. Edit the student files
+### 2. Edit the implementation files
 
-Open `scoring.py` and `decision.py`. Follow the TODO comments.
+Open `implementation/scoring.py` and `implementation/decision.py`. Follow the TODO comments.
 
 ### 3. Test your AI
 
@@ -67,26 +67,37 @@ Edit the scenarios in `main.py` or create new ones.
 ## File Structure
 
 ```
-assistive-ai-workshop/
-├── main.py              # Run this to simulate
-├── state.py             # Robot and environment state
-├── actions.py           # Available actions
-├── simulator.py         # Simulation engine
-├── decision.py          # STUDENT EDITS (AI brain)
-├── scoring.py           # STUDENT EDITS (evaluate actions)
-├── constraints.py       # Safety rules (instructor-provided)
+decision-maker/
+├── main.py              # Main simulation runner
 ├── README.md            # This file
-├── COMPARISON.md        # Comparison of different approaches
-├── METRICS.md           # Performance metrics documentation
-├── metrics.py           # Metrics calculation system
-└── solutions/           # Example solution (see after trying yours!)
-    ├── solution.py      # Run advanced AI
-    ├── solution_decision.py
-    ├── solution_scoring.py
-    └── README.md
+│
+├── implementation/      # AI implementation (edit these files)
+│   ├── decision.py      # Decision-making logic
+│   └── scoring.py       # Action evaluation & scoring
+│
+├── core/                # Simulation framework
+│   ├── state.py         # Robot and environment state
+│   ├── actions.py       # Available actions
+│   ├── simulator.py     # Simulation engine
+│   ├── constraints.py   # Safety constraints
+│   └── metrics.py       # Performance metrics system
+│
+├── solutions/           # Reference implementations
+│   ├── solution.py      # Advanced AI example
+│   ├── solution_decision.py
+│   ├── solution_scoring.py
+│   └── README.md
+│
+├── docs/                # Documentation
+│   ├── COMPARISON.md    # Comparative analysis
+│   └── METRICS.md       # Metrics documentation
+│
+└── output/              # Generated files (auto-created)
+    ├── my_metrics.json
+    └── solution_metrics.json
 ```
 
-**Only edit `decision.py` and `scoring.py`!**
+**Edit files in `implementation/` to customize the AI behavior.**
 
 **Note:** The `solutions/` folder contains an example implementation. Try your own approach first before looking at it!
 

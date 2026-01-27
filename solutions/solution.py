@@ -13,11 +13,11 @@ from pathlib import Path
 # Add parent directory to path so we can import the main modules
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from state import RobotState
-from actions import Action
-from simulator import RobotSimulator
-from constraints import is_action_allowed, get_constraint_warnings
-from metrics import PerformanceMetrics
+from core.state import RobotState
+from core.actions import Action
+from core.simulator import RobotSimulator
+from core.constraints import is_action_allowed, get_constraint_warnings
+from core.metrics import PerformanceMetrics
 
 # Import the solution implementations
 from solutions import solution_decision
@@ -202,11 +202,11 @@ def main():
     metrics.display_metrics("SOLUTION AI PERFORMANCE METRICS")
     
     # Save solution metrics
-    metrics.save_to_file("solution_metrics.json")
+    metrics.save_to_file("output/solution_metrics.json")
     
     # Try to compare with student implementation if it exists
     try:
-        student_metrics = PerformanceMetrics.load_from_file("my_metrics.json")
+        student_metrics = PerformanceMetrics.load_from_file("output/my_metrics.json")
         print("\n" + "="*80)
         print("  COMPARISON: Your AI vs Solution AI")
         print("="*80)

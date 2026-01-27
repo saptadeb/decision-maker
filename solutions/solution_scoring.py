@@ -5,8 +5,8 @@ This demonstrates a more sophisticated approach to action evaluation.
 Students should develop their own approach - this is just one example!
 """
 
-from actions import Action, get_battery_cost
-from state import RobotState
+from core.actions import Action, get_battery_cost
+from core.state import RobotState
 
 
 def score_action(action: Action, state: RobotState) -> float:
