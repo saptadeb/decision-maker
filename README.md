@@ -24,8 +24,8 @@ Then click any scenario button to see the AI in action!
 ## Installation and Setup
 
 **Platform-Specific Guides:**
-- 🪟 **[Windows Setup Guide](SETUP_WINDOWS.md)** ← Recommended for Windows users
-- 🐧 **[Ubuntu/Linux Setup Guide](SETUP_UBUNTU.md)** ← Recommended for Ubuntu users
+- **[Windows Setup Guide](SETUP_WINDOWS.md)** - Recommended for Windows users
+- **[Ubuntu/Linux Setup Guide](SETUP_UBUNTU.md)** - Recommended for Ubuntu users
 
 ### Quick Setup (All Platforms)
 
