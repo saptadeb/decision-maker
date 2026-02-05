@@ -1,25 +1,78 @@
 """
 Performance metrics for comparing AI implementations.
 
-These metrics provide quantitative ways to evaluate and compare
-different decision-making strategies.
+This module provides a comprehensive metrics system for quantitatively evaluating
+and comparing different decision-making strategies. Metrics cover multiple dimensions
+including success rate, battery efficiency, urgency response, risk management, and
+overall task completion.
+
+The metrics system enables:
+- Objective comparison between different AI implementations
+- Identification of strengths and weaknesses in decision strategies
+- Tracking of improvement over multiple iterations
+- Grade-based assessment of performance
+
+See docs/METRICS.md for detailed documentation of each metric.
 """
 
 from typing import List, Dict
 
 
 class PerformanceMetrics:
-    """Calculate and store performance metrics for AI evaluation."""
+    """
+    Calculate and store performance metrics for AI evaluation.
+    
+    This class accumulates results from multiple scenario runs and calculates
+    comprehensive performance metrics across six dimensions:
+    1. Success Rate - percentage of scenarios where user was helped
+    2. Battery Efficiency - how well battery resources were managed
+    3. Urgency Response - how quickly urgent situations were addressed
+    4. Risk Management - how well dangerous situations were avoided
+    5. Task Completion - overall task completion quality
+    6. Overall Score - weighted combination of all metrics
+    
+    Usage:
+        metrics = PerformanceMetrics()
+        for result in scenario_results:
+            metrics.add_scenario(result)
+        metrics.display_metrics()
+    """
     
     def __init__(self):
         self.scenarios = []
     
     def add_scenario(self, result: dict):
-        """Add a scenario result for metric calculation."""
+        """
+        Add a scenario result for metric calculation.
+        
+        Args:
+            result: Dictionary containing scenario results with keys:
+                   - name: Scenario name
+                   - initial_battery: Starting battery level
+                   - initial_urgency: Starting urgency level
+                   - steps: Number of steps taken
+                   - final_battery: Ending battery level
+                   - user_helped: Boolean, whether user urgency reached 0
+                   - battery_depleted: Boolean, whether battery reached 0
+        """
         self.scenarios.append(result)
     
     def calculate_all_metrics(self) -> dict:
-        """Calculate all performance metrics."""
+        """
+        Calculate all performance metrics.
+        
+        Returns:
+            dict: Dictionary containing all calculated metrics:
+                 - success_rate: 0-100%
+                 - avg_steps: Average steps per scenario
+                 - battery_efficiency: 0-100%
+                 - urgency_response: 0-100%
+                 - risk_score: 0-100%
+                 - completion_score: 0-100%
+                 - overall_score: 0-100% (weighted combination)
+                 
+        Returns empty dict if no scenarios have been added.
+        """
         if not self.scenarios:
             return {}
         
@@ -34,12 +87,23 @@ class PerformanceMetrics:
         }
     
     def _success_rate(self) -> float:
-        """Percentage of scenarios where user was helped successfully."""
+        """
+        Calculate success rate metric.
+        
+        Returns:
+            float: Percentage (0-100) of scenarios where user was successfully
+                  helped (urgency reduced to 0)
+        """
         successes = sum(1 for s in self.scenarios if s['user_helped'])
         return (successes / len(self.scenarios)) * 100
     
     def _avg_steps(self) -> float:
-        """Average number of steps taken per scenario."""
+        """
+        Calculate average steps per scenario.
+        
+        Returns:
+            float: Mean number of steps taken across all scenarios
+        """
         total_steps = sum(s['steps'] for s in self.scenarios)
         return total_steps / len(self.scenarios)
     
@@ -220,7 +284,20 @@ class PerformanceMetrics:
         return overall
     
     def get_grade(self, score: float) -> str:
-        """Convert a score to a letter grade."""
+        """
+        Convert a numerical score to a letter grade.
+        
+        Args:
+            score: Numerical score (0-100)
+            
+        Returns:
+            str: Letter grade (A, B, C, D, or F)
+                A: 90-100
+                B: 80-89
+                C: 70-79
+                D: 60-69
+                F: <60
+        """
         if score >= 90:
             return "A"
         elif score >= 80:
@@ -233,7 +310,20 @@ class PerformanceMetrics:
             return "F"
     
     def display_metrics(self, title: str = "PERFORMANCE METRICS"):
-        """Display all metrics in a formatted table."""
+        """
+        Display all metrics in a formatted table.
+        
+        Prints a comprehensive report including:
+        - Individual metric scores with letter grades
+        - Overall score
+        - Additional statistics (avg steps, completions, depletions)
+        
+        Args:
+            title: Header title for the metrics display
+            
+        Returns:
+            dict: The calculated metrics dictionary (for further use)
+        """
         metrics = self.calculate_all_metrics()
         
         print("\n" + "="*70)
@@ -261,7 +351,16 @@ class PerformanceMetrics:
         return metrics
     
     def compare_with(self, other_metrics: 'PerformanceMetrics', other_name: str = "Other"):
-        """Compare this metrics with another implementation."""
+        """
+        Compare this metrics with another implementation.
+        
+        Displays a side-by-side comparison showing which implementation
+        performs better in each category.
+        
+        Args:
+            other_metrics: Another PerformanceMetrics object to compare against
+            other_name: Display name for the other implementation
+        """
         my_metrics = self.calculate_all_metrics()
         other_metrics_data = other_metrics.calculate_all_metrics()
         
@@ -269,7 +368,7 @@ class PerformanceMetrics:
         print("  COMPARATIVE ANALYSIS")
         print("="*80)
         
-        print(f"\n{'Metric':<25} {'Your AI':<15} {'vs':<5} {other_name:<15} {'Winner'}")
+        print(f"\n{'Metric':<25} {'Custom AI':<15} {'vs':<5} {other_name:<15} {'Winner'}")
         print("-"*80)
         
         categories = [
@@ -293,7 +392,7 @@ class PerformanceMetrics:
                 winner = "TIE"
                 ties += 1
             elif my_val > other_val:
-                winner = "Your AI"
+                winner = "Custom AI"
                 wins += 1
             else:
                 winner = other_name
@@ -308,7 +407,7 @@ class PerformanceMetrics:
         print(f"\nResults: {wins} wins, {losses} losses, {ties} ties")
         
         if wins > losses:
-            print("Your AI outperforms the comparison!")
+            print("Custom AI outperforms the comparison!")
         elif losses > wins:
             print("The comparison AI performs better overall.")
         else:
@@ -317,7 +416,13 @@ class PerformanceMetrics:
         print("="*80)
     
     def save_to_file(self, filename: str):
-        """Save metrics to a file for later comparison."""
+        """
+        Save metrics to a JSON file for later comparison.
+        
+        Args:
+            filename: Path to save the metrics JSON file
+                     (typically in output/ directory)
+        """
         import json
         
         metrics = self.calculate_all_metrics()
@@ -333,7 +438,16 @@ class PerformanceMetrics:
     
     @staticmethod
     def load_from_file(filename: str) -> 'PerformanceMetrics':
-        """Load metrics from a file."""
+        """
+        Load metrics from a previously saved JSON file.
+        
+        Args:
+            filename: Path to the metrics JSON file
+            
+        Returns:
+            PerformanceMetrics: Reconstructed metrics object with
+                               scenarios loaded from file
+        """
         import json
         
         with open(filename, 'r') as f:
@@ -350,11 +464,15 @@ def compare_implementations(results1: List[dict], results2: List[dict],
     """
     Compare two AI implementations side by side.
     
+    Creates PerformanceMetrics objects for both implementations and
+    displays their metrics along with a comparative analysis.
+    
     Args:
         results1: List of scenario results from first implementation
+                 (each result should be a dict with required keys)
         results2: List of scenario results from second implementation
-        name1: Name of first implementation
-        name2: Name of second implementation
+        name1: Display name for first implementation
+        name2: Display name for second implementation
     """
     metrics1 = PerformanceMetrics()
     metrics2 = PerformanceMetrics()

@@ -1,8 +1,16 @@
 """
 Safety constraints for the assistive robot.
 
-These are HARD RULES that prevent dangerous or nonsensical actions.
-Students don't edit this — it's the "safety layer."
+This module implements HARD RULES that prevent dangerous or nonsensical actions.
+These constraints act as a "safety layer" that blocks actions before they can be
+executed, ensuring the robot doesn't enter catastrophic states.
+
+This file represents the robot's built-in safety mechanisms
+that exist regardless of the decision-making AI's choices.
+
+Key concepts:
+- Hard constraints: Actions are completely blocked (return False)
+- Soft constraints: Actions allowed but warnings issued (via get_constraint_warnings)
 """
 
 from core.actions import Action
@@ -13,8 +21,24 @@ def is_action_allowed(action: Action, state: RobotState) -> tuple[bool, str]:
     """
     Check if an action is allowed given the current state.
     
+    Validates that an action can be safely executed given the robot's
+    current state. Hard constraints that return False will prevent the
+    action from being executed entirely.
+    
+    Args:
+        action: The Action being considered for execution
+        state: Current RobotState containing battery, urgency, etc.
+    
     Returns:
-        (allowed, reason) — if not allowed, reason explains why
+        tuple[bool, str]: A tuple of (allowed, reason) where:
+            - allowed: True if action can be executed, False if blocked
+            - reason: Human-readable explanation of the decision
+                     (e.g., "Action allowed" or "Cannot help: battery too low")
+                     
+    Example:
+        >>> allowed, reason = is_action_allowed(Action.HELP_USER, state)
+        >>> if not allowed:
+        >>>     print(f"Blocked: {reason}")
     """
     
     # Constraint 1: Cannot help if battery is depleted
@@ -44,9 +68,25 @@ def is_action_allowed(action: Action, state: RobotState) -> tuple[bool, str]:
 
 def get_constraint_warnings(action: Action, state: RobotState) -> list[str]:
     """
-    Get warnings (not blockers) about an action.
+    Get warnings (not blockers) about a potentially risky action.
     
-    These are logged but don't prevent the action.
+    Unlike is_action_allowed(), these warnings don't prevent the action
+    from being executed. They're logged to inform the user that the AI
+    is taking a calculated risk or making a questionable choice.
+    
+    Args:
+        action: The Action being considered
+        state: Current RobotState
+        
+    Returns:
+        list[str]: List of warning messages (empty list if no warnings)
+                   Each warning is a human-readable string describing
+                   the potential risk.
+                   
+    Example:
+        >>> warnings = get_constraint_warnings(Action.HELP_USER, state)
+        >>> for warning in warnings:
+        >>>     print(f"⚠️ {warning}")
     """
     warnings = []
     

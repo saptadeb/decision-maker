@@ -1,16 +1,37 @@
 """
 Simulation engine for the assistive robot.
 
-This module applies action effects and updates the world state.
+This module implements the simulation engine that applies action effects
+and updates the world state. It provides deterministic, reproducible simulations
+with no randomness, ensuring consistent testing and comparison of different
+AI implementations.
+
+The simulator:
+- Executes actions and updates robot state
+- Tracks battery consumption and user urgency changes
+- Maintains history of all actions and results
+- Detects scenario end conditions (success, failure, timeout)
+- Ensures all state changes follow defined rules deterministically
 """
 
-import random
 from core.actions import Action, ACTION_PROPERTIES
 from core.state import RobotState, ActionResult
 
 
 class RobotSimulator:
-    """Simulates the effects of robot actions."""
+    """
+    Simulates the effects of robot actions on state.
+    
+    The simulator maintains the robot's state and executes actions,
+    applying their effects deterministically. It tracks history and
+    detects end conditions.
+    
+    Attributes:
+        state: Current RobotState
+        max_steps: Maximum steps before timeout
+        history: List of all actions and their results
+        scenario_ended: Whether the scenario has reached an end condition
+    """
     
     def __init__(self, initial_state: RobotState, max_steps: int = 10):
         self.state = initial_state
@@ -22,7 +43,20 @@ class RobotSimulator:
         """
         Execute an action and update state.
         
-        Returns details about what happened.
+        Applies the action's effects to the robot state, updates time,
+        clamps values to valid ranges, checks for end conditions, and
+        records the action in history.
+        
+        Args:
+            action: The Action to execute
+            
+        Returns:
+            ActionResult: Object containing:
+                - success (bool): Whether action completed successfully
+                - message (str): Human-readable description of what happened
+                - battery_change (int): Battery level change
+                - urgency_change (int): Urgency level change
+                - task_change (str): New task state if changed
         """
         props = ACTION_PROPERTIES[action]
         result = ActionResult(success=True, message="")
@@ -63,7 +97,15 @@ class RobotSimulator:
         return result
     
     def _apply_help_user(self, props: dict) -> ActionResult:
-        """Apply HELP_USER action."""
+        """
+        Apply HELP_USER action effects.
+        
+        Args:
+            props: Action properties from ACTION_PROPERTIES
+            
+        Returns:
+            ActionResult: Details of the help action result
+        """
         self.state.battery -= props["battery_cost"]
         
         # Reduce urgency (success!)
@@ -85,21 +127,27 @@ class RobotSimulator:
         )
     
     def _apply_recharge(self, props: dict) -> ActionResult:
-        """Apply RECHARGE action."""
+        """
+        Apply RECHARGE action effects.
+        
+        Note: This implementation is deterministic - urgency does NOT
+        increase during recharge (removed randomness for consistent testing).
+        
+        Args:
+            props: Action properties from ACTION_PROPERTIES
+            
+        Returns:
+            ActionResult: Details of the recharge action result
+        """
         old_battery = self.state.battery
         self.state.battery += props["battery_gain"]
         
-        # While recharging, user urgency may increase (with probability)
-        urgency_increased = False
-        if random.random() < 0.4 and self.state.user_urgency < 3:
-            self.state.user_urgency += 1
-            urgency_increased = True
+        # Deterministic: No urgency increase during recharge
+        # (Removed randomness for consistent testing)
         
         self.state.current_task = "navigating"
         
         message = f"Recharged battery ({old_battery}->{self.state.battery}%)"
-        if urgency_increased:
-            message += f" [User urgency increased to {self.state.user_urgency}]"
         
         return ActionResult(
             success=True,
@@ -108,12 +156,25 @@ class RobotSimulator:
         )
     
     def _apply_wait(self, props: dict) -> ActionResult:
-        """Apply WAIT action."""
+        """
+        Apply WAIT action effects.
+        
+        Note: Waiting ALWAYS increases urgency if possible (deterministic).
+        This makes WAIT consistently risky, unlike real-world scenarios
+        where waiting might sometimes be safe.
+        
+        Args:
+            props: Action properties from ACTION_PROPERTIES
+            
+        Returns:
+            ActionResult: Details of the wait action result
+        """
         self.state.battery -= props["battery_cost"]
         
-        # Risk: urgency may increase
+        # Deterministic: Waiting ALWAYS increases urgency if possible
+        # (Makes WAIT consistently risky - removed randomness)
         urgency_increased = False
-        if random.random() < 0.5 and self.state.user_urgency < 3:
+        if self.state.user_urgency < 3:
             self.state.user_urgency += 1
             urgency_increased = True
         
@@ -130,7 +191,18 @@ class RobotSimulator:
         )
     
     def _apply_call_for_help(self, props: dict) -> ActionResult:
-        """Apply CALL_FOR_HELP action."""
+        """
+        Apply CALL_FOR_HELP action effects.
+        
+        This action ends the scenario, representing the robot giving up
+        and requesting human assistance.
+        
+        Args:
+            props: Action properties from ACTION_PROPERTIES
+            
+        Returns:
+            ActionResult: Details of the call for help result
+        """
         self.state.battery -= props["battery_cost"]
         self.state.current_task = "idle"
         
@@ -143,7 +215,17 @@ class RobotSimulator:
         )
     
     def get_summary(self) -> dict:
-        """Generate summary of simulation results."""
+        """
+        Generate summary of simulation results.
+        
+        Returns:
+            dict: Summary containing:
+                - total_steps (int): Number of steps executed
+                - final_battery (int): Battery level at end (0-100)
+                - final_urgency (int): User urgency at end (0-3)
+                - user_helped (bool): True if urgency reached 0
+                - battery_depleted (bool): True if battery reached 0
+        """
         return {
             "total_steps": self.state.time_step,
             "final_battery": self.state.battery,

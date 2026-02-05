@@ -1,8 +1,8 @@
-"""
-Core framework for the Assistive Robot AI Workshop.
+﻿"""
+Core framework for the Assistive Robot Decision-Making System.
 
 This package contains the simulation engine and environment definitions
-that students use to test their AI implementations.
+used to test AI implementations.
 """
 
 from core.state import RobotState, ActionResult
@@ -21,4 +21,3 @@ __all__ = [
     'get_constraint_warnings',
     'PerformanceMetrics',
 ]
-
