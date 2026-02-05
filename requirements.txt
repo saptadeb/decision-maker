@@ -1,0 +1,4 @@
+# Assistive Robot Decision-Making System
+# Python 3.8+ required
+
+pyyaml>=6.0  # YAML configuration file parsing
