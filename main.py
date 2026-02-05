@@ -5,19 +5,20 @@ This now launches the GUI instead of console simulations.
 Run this file to start the visual simulator!
 """
 
-import sys
-import os
+"""
+Main launcher for the Assistive Robot Decision-Making System.
 
-# Ensure the GUI module can be imported
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+This launches the visual simulator GUI.
+Run this file to start the interactive simulator!
+"""
 
-from gui import main as gui_main
+from gui import run_main_gui
 
 
 def main():
-    """Launch the GUI."""
+    """Launch the main GUI."""
     print("Launching Assistive Robot Decision-Making System GUI...")
-    gui_main()
+    run_main_gui()
 
 
 if __name__ == "__main__":
