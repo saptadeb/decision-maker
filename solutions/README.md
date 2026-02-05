@@ -1,10 +1,10 @@
 # Solutions Folder
 
-This folder contains an **example implementation** of the AI decision-making system. It demonstrates one approach to solving the workshop challenges.
+This folder contains an **example implementation** of the AI decision-making system. It demonstrates one approach to solving the decision-making challenges.
 
 ## Important Notes
 
-⚠️ **These are NOT the only correct solutions!**
+**WARNING: These are NOT the only correct solutions!**
 
 The AI decision-making problem has many valid approaches. This solution demonstrates:
 - Multi-dimensional scoring (safety, helpfulness, efficiency)
@@ -26,10 +26,10 @@ This will run the same scenarios as `main.py` but using the advanced AI implemen
 Run both versions to see the difference:
 
 ```bash
-# Placeholder AI (student starting point)
+# Custom AI implementation
 python main.py
 
-# Solution AI (example implementation)
+# Reference AI (example implementation)
 python solutions/solution.py
 ```
 
@@ -55,9 +55,9 @@ Compare:
   - Identical to main.py but imports solution modules
   - Shows side-by-side comparison potential
 
-## Learning From This Solution
+## Understanding This Solution
 
-When reviewing this code, ask:
+When reviewing this code, consider:
 
 1. **What priorities does it encode?**
    - Look at the weights in `score_action()`
@@ -75,16 +75,16 @@ When reviewing this code, ask:
    - What edge cases might it miss?
    - What would you prioritize differently?
 
-## Your Task
+## Implementation Approach
 
-Don't just copy this solution! Instead:
+To create a custom implementation:
 
-1. Run it to see how it behaves
+1. Run the reference solution to see how it behaves
 2. Understand WHY it makes each decision
-3. Identify what you would do differently
-4. Implement YOUR OWN approach in the main files
+3. Identify alternative approaches
+4. Implement a different strategy in the implementation files
 
-The goal is to think through the tradeoffs yourself, not to find the "right answer."
+The goal is to explore different tradeoff strategies, not to find the "right answer."
 
 ## Discussion Questions
 

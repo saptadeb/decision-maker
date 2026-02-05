@@ -1,10 +1,22 @@
 """
 SOLUTION: Complete simulation with advanced AI implementation
 
-Run this to see how an improved AI performs compared to the placeholder.
+This script runs the same scenarios as main.py but uses the reference
+Reference AI implementation instead of the placeholder. It demonstrates
+one approach to solving the decision-making challenges.
+
+Key features of this solution:
+- Strategic rules for critical situations
+- Multi-dimensional scoring (safety, helpfulness, efficiency)
+- Proactive battery management
+- Dynamic weight adjustment based on context
+- Graceful handling of edge cases
 
 Usage:
     python solutions/solution.py
+    
+Note: This is ONE valid approach, not THE correct approach!
+Alternative strategies can be developed and compared.
 """
 
 import sys
@@ -25,7 +37,15 @@ from solutions import solution_decision
 
 def run_scenario(name: str, initial_state: RobotState, max_steps: int = 10) -> dict:
     """
-    Run a single scenario with the solution AI.
+    Run a single scenario with the Reference AI.
+    
+    Args:
+        name: Human-readable scenario name
+        initial_state: Starting robot state
+        max_steps: Maximum steps before timeout
+        
+    Returns:
+        dict: Scenario results including steps, battery, success status
     """
     print(f"\n{'='*60}")
     print(f"  Scenario: {name}")
@@ -43,7 +63,7 @@ def run_scenario(name: str, initial_state: RobotState, max_steps: int = 10) -> d
     while not sim.scenario_ended and step < max_steps:
         step += 1
         
-        # Solution AI chooses an action
+        # Reference AI chooses an action
         chosen_action = solution_decision.choose_action(sim.state)
         
         # Check constraints
@@ -101,7 +121,13 @@ def run_scenario(name: str, initial_state: RobotState, max_steps: int = 10) -> d
 
 
 def main():
-    """Run all test scenarios with solution AI."""
+    """
+    Run all test scenarios with Reference AI.
+    
+    Executes multiple scenarios demonstrating different challenge types,
+    calculates performance metrics, and optionally compares with the
+    custom implementation if available.
+    """
     
     print("="*60)
     print("  ASSISTIVE ROBOT AI - SOLUTION IMPLEMENTATION")
@@ -199,18 +225,18 @@ def main():
     for result in results:
         metrics.add_scenario(result)
     
-    metrics.display_metrics("SOLUTION AI PERFORMANCE METRICS")
+    metrics.display_metrics("Reference AI PERFORMANCE METRICS")
     
     # Save solution metrics
     metrics.save_to_file("output/solution_metrics.json")
     
-    # Try to compare with student implementation if it exists
+    # Try to compare with custom implementation if it exists
     try:
-        student_metrics = PerformanceMetrics.load_from_file("output/my_metrics.json")
+        custom_metrics = PerformanceMetrics.load_from_file("output/my_metrics.json")
         print("\n" + "="*80)
-        print("  COMPARISON: Your AI vs Solution AI")
+        print("  COMPARISON: Your AI vs Reference AI")
         print("="*80)
-        student_metrics.compare_with(metrics, "Solution AI")
+        custom_metrics.compare_with(metrics, "Reference AI")
     except FileNotFoundError:
         print("\nRun main.py first to compare your AI with this solution!")
     

@@ -1,8 +1,18 @@
 """
 SOLUTION: Advanced decision-making implementation
 
-This demonstrates a more sophisticated decision strategy.
-Students should develop their own approach - this is just one example!
+This demonstrates a more sophisticated decision strategy that balances
+multiple priorities through strategic rules and scoring-based fallbacks.
+
+Key design principles:
+1. Strategic rules for critical situations (override scoring when necessary)
+2. Proactive battery management (recharge before it's critical)
+3. Urgency-aware decision making (critical urgency gets priority)
+4. Graceful degradation (call for help when truly stuck)
+5. Scoring-based decisions for normal situations
+
+This is a reference implementation demonstrating one possible approach.
+There are many valid ways to solve these challenges.
 """
 
 from core.actions import Action
@@ -22,28 +32,67 @@ def choose_action(state: RobotState) -> Action:
     4. Considers future states (simple lookahead)
     """
     
-    # Critical situation handling: override scoring with rules
+    # ===================================================================
+    # STRATEGIC RULES - Critical situations get special handling
+    # ===================================================================
+    # In critical situations, we use explicit rules rather than scoring
+    # to ensure the robot makes the "right" choice according to our values.
+    #
+    # This section encodes our priorities:
+    # - Critical user urgency (3) = highest priority
+    # - Battery safety = second priority
+    # - Balanced decisions = use scoring for normal cases
+    # ===================================================================
     
-    # Rule 1: If battery is critically low, must recharge immediately
-    # (unless user is in critical need and we have just enough battery)
-    if state.battery < 15:
-        if state.user_urgency >= 3 and state.battery >= 10:
-            # Emergency help: user is critical and we can help once
+    # Rule 1: Critical urgency (3) - ALWAYS help if possible!
+    # Justification: A critical user need takes priority over battery concerns
+    if state.user_urgency >= 3:
+        if state.battery >= 15:
             return Action.HELP_USER
         elif state.battery >= 10:
-            # Must recharge before we're completely depleted
-            return Action.RECHARGE
+            return Action.HELP_USER
         else:
-            # Too depleted to do anything useful
             return Action.CALL_FOR_HELP
     
-    # Rule 2: If user urgency is critical and we have battery, help now!
-    if state.user_urgency >= 3 and state.battery >= 20:
+    # Rule 2: Battery critically low (<10%) - must recharge NOW
+    # Justification: Battery below 10% is emergency territory
+    # We can't help anyone if we're depleted
+    if state.battery < 10:
+        if state.user_urgency >= 2:
+            return Action.CALL_FOR_HELP  # Can't help safely
+        else:
+            return Action.RECHARGE
+    
+    # Rule 3: Battery very low (10-25%) - careful decision
+    # Justification: This is a tricky zone where we need to balance
+    # urgency vs. battery safety. One help action costs 15%.
+    if state.battery < 25:
+        if state.user_urgency >= 2:
+            # High urgency - help once then must recharge
+            return Action.HELP_USER
+        else:
+            # Low urgency - recharge first
+            return Action.RECHARGE
+    
+    # Rule 4: High urgency (2+) with good battery (25%+) - help!
+    # Justification: We have enough battery to help safely
+    if state.user_urgency >= 2 and state.battery >= 25:
         return Action.HELP_USER
     
-    # Rule 3: If battery is low-ish and no immediate urgency, recharge proactively
-    if state.battery < 30 and state.user_urgency <= 1:
+    # Rule 5: Medium battery (25-45%) with any urgency - help first
+    # Justification: Help while we can, then recharge if needed
+    if 25 <= state.battery < 45 and state.user_urgency >= 1:
+        return Action.HELP_USER
+    
+    # Rule 6: Low battery (<45%) with low urgency - proactive recharge
+    # Justification: User can wait; better to recharge now than later
+    if state.battery < 45 and state.user_urgency <= 1:
         return Action.RECHARGE
+    
+    # Rule 7: Any urgency (1+) with good battery (45%+) - help!
+    # Justification: Plenty of battery, user needs help, clear choice
+    if state.user_urgency >= 1 and state.battery >= 45:
+        return Action.HELP_USER
     
     # For non-critical situations, use scoring-based decision
     return choose_by_scoring(state)
@@ -52,6 +101,15 @@ def choose_action(state: RobotState) -> Action:
 def choose_by_scoring(state: RobotState) -> Action:
     """
     Choose action based on scoring all options.
+    
+    Used as a fallback when no strategic rule applies. This provides
+    flexible decision-making for non-critical situations.
+    
+    Args:
+        state: Current robot state
+        
+    Returns:
+        Action: Highest-scoring valid action
     """
     possible_actions = list(Action)
     
