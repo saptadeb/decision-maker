@@ -8,8 +8,8 @@ Choose your operating system for detailed setup instructions:
 
 | Platform | Setup Guide | Quick Command |
 |----------|-------------|---------------|
-| **Windows** | **[SETUP_WINDOWS.md](SETUP_WINDOWS.md)** | `python main.py` |
-| **Ubuntu/Linux** | **[SETUP_UBUNTU.md](SETUP_UBUNTU.md)** | `python3 main.py` |
+| **Windows** | **[Windows Setup](docs/setup/windows.md)** | `python main.py` |
+| **Ubuntu/Linux** | **[Ubuntu Setup](docs/setup/ubuntu.md)** | `python3 main.py` |
 
 ## Quick Start
 
@@ -143,8 +143,12 @@ Use the toggle button to switch between implementations and see how they differ 
 ```
 decision-maker/
 ├── main.py              # GUI launcher (run this!)
-├── gui.py               # Visual simulator interface
 ├── README.md            # This file
+├── requirements.txt     # Python dependencies
+│
+├── gui/                 # GUI modules
+│   ├── main_window.py   # Visual simulator interface
+│   └── tuning_window.py # Parameter tuning interface
 │
 ├── implementation/      # AI implementation (edit these files)
 │   ├── decision.py      # Decision-making logic
@@ -163,9 +167,18 @@ decision-maker/
 │   ├── solution_scoring.py
 │   └── README.md
 │
+├── tests/               # Testing and comparison
+│   └── test_comparison.py
+│
 ├── docs/                # Documentation
 │   ├── COMPARISON.md    # Comparative analysis
-│   └── METRICS.md       # Metrics documentation
+│   ├── METRICS.md       # Metrics documentation
+│   └── setup/           # Platform-specific guides
+│       ├── windows.md   # Windows setup
+│       └── ubuntu.md    # Ubuntu/Linux setup
+│
+├── config/              # Configuration files
+│   └── default_params.yml
 │
 └── output/              # Generated files (auto-created)
     ├── gui_metrics.json
@@ -305,7 +318,7 @@ sudo dnf install python3-tkinter
 **Custom implementation not working**
 - Check that `implementation/decision.py` and `implementation/scoring.py` exist
 - Make sure they contain the required functions: `choose_action()` in decision.py and `score_action()` in scoring.py
-- Try using the tuning GUI to generate valid implementation files
+- Try using the parameter tuning GUI (`python -m gui.tuning_window`) to generate valid implementation files
 
 **Parameters not loading in tuning GUI**
 - The tuning GUI will use hardcoded defaults if `config/default_params.yml` is missing
