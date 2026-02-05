@@ -25,7 +25,7 @@ Click "Compare Performance" to see detailed metrics breakdown.
 Run automated comparison tests:
 
 ```bash
-python test_comparison.py
+python -m tests.test_comparison
 ```
 
 This runs all 12 scenarios with both implementations and shows:
@@ -38,7 +38,7 @@ This runs all 12 scenarios with both implementations and shows:
 Optimize custom implementation parameters:
 
 ```bash
-python tuning_gui.py
+python -m gui.tuning_window
 ```
 
 Features:
@@ -183,7 +183,7 @@ Overall Score               97.0%           98.5%         Solution (+1.5)
 ### Option 1: Use Tuning GUI
 
 ```bash
-python tuning_gui.py
+python -m gui.tuning_window
 ```
 
 Adjust sliders to optimize:
@@ -235,7 +235,7 @@ Both implementations are valid but reflect different priorities:
 
 ### Full Comparison Test
 ```bash
-python test_comparison.py
+python -m tests.test_comparison
 ```
 
 ### GUI Interactive Comparison

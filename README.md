@@ -53,7 +53,7 @@ This launches the visual simulator with all 12 preset scenarios. Use this to:
 
 **Option 2: Parameter Tuning GUI**
 ```bash
-python tuning_gui.py
+python -m gui.tuning_window
 ```
 This launches the parameter tuning interface where you can:
 - Adjust AI parameters using sliders
@@ -62,7 +62,7 @@ This launches the parameter tuning interface where you can:
 
 **Option 3: Command-Line Comparison**
 ```bash
-python test_comparison.py
+python -m tests.test_comparison
 ```
 This runs a headless comparison between your custom implementation and the reference solution, showing detailed metrics in the terminal.
 
