@@ -1,0 +1,21 @@
+# Default Parameters for Assistive Robot Decision-Making System
+# These parameters control the robot's decision-making and scoring logic
+
+# Decision-making thresholds
+recharge_threshold: 30  # Battery level (%) at which robot should consider recharging
+critical_battery: 15    # Battery level (%) considered critically low
+help_min_battery: 20    # Minimum battery (%) required to help user
+
+# Scoring weights (must sum to 1.0 for safety + helpfulness)
+safety_weight: 0.4      # Weight for safety considerations (0.0 - 1.0)
+helpfulness_weight: 0.6 # Weight for helpfulness to user (0.0 - 1.0)
+
+# Behavioral flags
+proactive_recharge: false  # Whether to recharge proactively before critical levels
+
+# Risk management
+risk_tolerance: "Medium"  # Risk tolerance level: Low, Medium, High
+# Risk buffer multiplier based on tolerance:
+# - Low: 1.2 (very cautious)
+# - Medium: 1.0 (balanced)
+# - High: 0.8 (aggressive)
