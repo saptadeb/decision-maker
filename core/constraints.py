@@ -86,7 +86,7 @@ def get_constraint_warnings(action: Action, state: RobotState) -> list[str]:
     Example:
         >>> warnings = get_constraint_warnings(Action.HELP_USER, state)
         >>> for warning in warnings:
-        >>>     print(f"⚠️ {warning}")
+        >>>     print(f"WARNING: {warning}")
     """
     warnings = []
     

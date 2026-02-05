@@ -215,7 +215,7 @@ Different AI strategies will excel at different metrics:
 **Problem:** Low Urgency Response (65%)
 - Diagnosis: AI recharges too conservatively
 - Fix: Increase urgency weight in scoring
-- Result: Urgency Response → 85%, but Risk Management dropped slightly
+- Result: Urgency Response -> 85%, but Risk Management dropped slightly
 - Decision: Accept tradeoff or tune further?
 
 ---
