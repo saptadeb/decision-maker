@@ -845,8 +845,8 @@ class RobotSimulatorGUI:
         self.log_output("="*70 + "\n", "header")
         
         # Overall winner
-        impl_overall = impl_metrics_data.get("Overall Score", 0)
-        soln_overall = soln_metrics_data.get("Overall Score", 0)
+        impl_overall = impl_metrics_data.get("overall_score", 0)
+        soln_overall = soln_metrics_data.get("overall_score", 0)
         
         self.log_output("\n")
         if impl_overall > soln_overall:
