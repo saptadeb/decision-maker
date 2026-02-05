@@ -1,16 +1,82 @@
-# Assistive Robot Decision-Making AI Workshop
+# Assistive Robot Decision-Making System
 
-## Overview
+> An interactive AI decision-making simulator for assistive robotics with visual GUI, parameter tuning, and performance metrics.
 
-This workshop explores **AI decision-making** through a simulated assistive robot. The robot must balance competing priorities: helping users, managing its battery, and ensuring safety.
+## Platform Setup
 
-**Key Learning Goal**: There's no single "correct" AI behavior — students make value judgments about what matters most.
+Choose your operating system for detailed setup instructions:
+
+| Platform | Setup Guide | Quick Command |
+|----------|-------------|---------------|
+| **Windows** | **[SETUP_WINDOWS.md](SETUP_WINDOWS.md)** | `python main.py` |
+| **Ubuntu/Linux** | **[SETUP_UBUNTU.md](SETUP_UBUNTU.md)** | `python3 main.py` |
+
+## Quick Start
+
+```bash
+python main.py  # Launches the visual simulator GUI
+```
+
+Then click any scenario button to see the AI in action!
 
 ---
 
-## Your Task
+## Installation and Setup
 
-You will implement the robot's "brain" by editing **only 2 files** in the `implementation/` directory:
+**Platform-Specific Guides:**
+- 🪟 **[Windows Setup Guide](SETUP_WINDOWS.md)** ← Recommended for Windows users
+- 🐧 **[Ubuntu/Linux Setup Guide](SETUP_UBUNTU.md)** ← Recommended for Ubuntu users
+
+### Quick Setup (All Platforms)
+
+**Prerequisites:** Python 3.8+ and pip
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Ubuntu users: Install tkinter first
+sudo apt install python3-tk
+```
+
+### Run the Application
+
+**Option 1: Main Simulator GUI** (Recommended)
+```bash
+python main.py
+```
+This launches the visual simulator with all 12 preset scenarios. Use this to:
+- Test your AI implementation
+- Switch between custom and reference solutions
+- Run all scenarios at once
+- Compare performance metrics
+
+**Option 2: Parameter Tuning GUI**
+```bash
+python tuning_gui.py
+```
+This launches the parameter tuning interface where you can:
+- Adjust AI parameters using sliders
+- Test different configurations in real-time
+- Export tuned parameters to implementation files
+
+**Option 3: Command-Line Comparison**
+```bash
+python test_comparison.py
+```
+This runs a headless comparison between your custom implementation and the reference solution, showing detailed metrics in the terminal.
+
+---
+
+## Overview
+
+This project explores **AI decision-making** through a simulated assistive robot. The robot must balance competing priorities: helping users, managing its battery, and ensuring safety.
+
+**Key Concept**: There's no single "correct" AI behavior — the system demonstrates how different value judgments affect decision outcomes.
+
+## Implementation
+
+The robot's "brain" can be customized by editing **only 2 files** in the `implementation/` directory:
 
 1. **`implementation/scoring.py`** — Define how the robot evaluates each action
 2. **`implementation/decision.py`** — Implement the logic to choose the best action
@@ -26,41 +92,49 @@ You will implement the robot's "brain" by editing **only 2 files** in the `imple
 - **Environment**: distances to user/charger, time pressure
 
 ### Actions (What the robot can do)
-- **HELP_USER** — Assist the user (costs energy)
-- **RECHARGE** — Go to charging station (takes time)
-- **WAIT** — Do nothing (low cost, but urgency may increase)
-- **CALL_FOR_HELP** — Request human assistance (gives up)
+- **HELP_USER** — Assist the user (costs 15% battery, reduces urgency by 1)
+- **RECHARGE** — Go to charging station (gains 50% battery, takes 2 time steps)
+- **WAIT** — Do nothing (costs 2% battery, **always** increases urgency by 1)
+- **CALL_FOR_HELP** — Request human assistance (ends scenario, costs 5% battery)
 
 ### Tradeoffs (The hard part!)
 - Should it help when battery is low?
 - When is it okay to make the user wait?
 - Is efficiency more important than safety?
 
-**Your choices define the AI's "personality".**
+**These choices define the AI's "personality".**
 
 ---
 
 ## Getting Started
 
-### 1. Run the baseline simulation
+### 1. Launch the Visual Simulator
 
 ```bash
 python main.py
 ```
 
-This runs with placeholder AI logic. The robot will make poor decisions!
+This opens a GUI where you can:
+- Run 12 different preset scenarios
+- Toggle between custom implementation and the reference solution
+- See real-time decision-making output
+- Compare performance instantly
 
 ### 2. Edit the implementation files
 
 Open `implementation/scoring.py` and `implementation/decision.py`. Follow the TODO comments.
 
-### 3. Test your AI
+### 3. Test the AI
 
-Run the simulation again and observe how behavior changes.
+**In the GUI:**
+- Click any scenario button to run it with the custom implementation
+- Use the toggle to switch between "Custom Implementation" and "Reference Solution"
+- Click "Run All Scenarios" to test all 12 scenarios at once
+- Results are **deterministic** - same scenario = same output every time
 
-### 4. Try different scenarios
+### 4. Compare implementations
 
-Edit the scenarios in `main.py` or create new ones.
+Use the toggle button to switch between implementations and see how they differ on the same scenarios!
 
 ---
 
@@ -68,14 +142,15 @@ Edit the scenarios in `main.py` or create new ones.
 
 ```
 decision-maker/
-├── main.py              # Main simulation runner
+├── main.py              # GUI launcher (run this!)
+├── gui.py               # Visual simulator interface
 ├── README.md            # This file
 │
 ├── implementation/      # AI implementation (edit these files)
 │   ├── decision.py      # Decision-making logic
 │   └── scoring.py       # Action evaluation & scoring
 │
-├── core/                # Simulation framework
+├── core/                # Simulation framework (deterministic)
 │   ├── state.py         # Robot and environment state
 │   ├── actions.py       # Available actions
 │   ├── simulator.py     # Simulation engine
@@ -93,99 +168,145 @@ decision-maker/
 │   └── METRICS.md       # Metrics documentation
 │
 └── output/              # Generated files (auto-created)
-    ├── my_metrics.json
-    └── solution_metrics.json
+    ├── gui_metrics.json
+    └── gui_results.json
 ```
 
 **Edit files in `implementation/` to customize the AI behavior.**
 
-**Note:** The `solutions/` folder contains an example implementation. Try your own approach first before looking at it!
+**Note:** The `solutions/` folder contains an optimized reference implementation. Try your own approach first, then use the GUI toggle to compare behaviors!
 
 ---
 
-## Discussion Questions
+## Analysis Questions
 
-After implementing your AI:
+After implementing the AI:
 
-1. What values did your robot prioritize?
-2. When did your AI make surprising choices?
-3. How would you design this for a **real** assistive robot?
+1. What values does the robot prioritize?
+2. When does the AI make surprising choices?
+3. How would this design translate to a **real** assistive robot?
 4. What ethical concerns arise when AI makes decisions for vulnerable users?
 
 ---
 
 ## Success Criteria
 
-There's no "correct" answer! Your AI is successful if:
+There's no single "correct" answer! An AI implementation is successful if:
 
 - It completes scenarios without breaking constraints
-- You can explain *why* it makes each decision
-- It behaves differently from your classmates' AIs
-- You can justify the tradeoffs you encoded
+- The decision logic is explainable and traceable
+- It handles edge cases (low battery + high urgency)
+- It behaves meaningfully differently from the reference solution
+- The tradeoffs are well-justified
+
+**Bonus Challenge:** Can a custom implementation outperform the reference solution on all 12 scenarios?
 
 ---
 
-## Example Output
+## Visual Simulator Features
+
+### Interactive GUI
+- **12 Preset Scenarios**: From "Balanced Start" to "Critical Battery" situations
+- **Toggle Switch**: Instantly switch between custom implementation and the reference solution
+- **Real-time Output**: Watch decisions unfold step-by-step with color-coded results
+- **Batch Testing**: Run all scenarios at once with one click
+
+### Scenario Types
+- **Balanced Start**: Standard operating conditions
+- **Low Battery Crisis**: Managing critical battery with urgent user
+- **High Urgency**: Critical user needs with various battery levels
+- **Efficiency Tests**: Long-running scenarios testing resource management
+- **Edge Cases**: Close to charger, close to user, multiple competing needs
+
+### Example Output (from GUI)
 
 ```
-=== Scenario: Urgent User with Low Battery ===
-Step 1: Battery=25, Urgency=HIGH → HELP_USER (risky but needed)
-Step 2: Battery=10, Urgency=MEDIUM → RECHARGE (safety first)
-Step 3: Battery=70, Urgency=MEDIUM → HELP_USER (safe to help now)
-Result: User helped successfully!
+==================================================================
+  Scenario: Low Battery Crisis
+==================================================================
+Initial State: [Step 0] Battery=25%, Task=idle, Urgency=MEDIUM
+
+Step 1: [Step 0] Battery=25%, Task=idle, Urgency=MEDIUM
+  -> Decision: HELP_USER
+    Helped user (urgency 2->1)
+
+Step 2: [Step 1] Battery=10%, Task=helping, Urgency=LOW
+  -> Decision: RECHARGE
+    Recharged battery (10->60%)
+    
+[SUCCESS] User need fully resolved.
 ```
 
-### Performance Metrics
-
-After running scenarios, you'll see quantitative metrics:
-
-```
-PERFORMANCE METRICS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Metric                    Score    Grade
-Success Rate              100.0%     A
-Battery Efficiency         85.0%     B
-Urgency Response           90.0%     A
-Risk Management            95.0%     A
-Overall Score              93.5%     A
-```
-
-See `METRICS.md` for detailed explanation of each metric.
+### Deterministic Behavior
+- **Same scenario = Same results** every time
+- **No randomness** - fully predictable for testing
+- **Consistent comparisons** between implementations
 
 ---
 
-## Comparing Solutions
+## Comparing Implementations
 
-After implementing your AI, compare quantitatively:
+The GUI makes comparison easy:
 
+### In the Visual Simulator:
+
+1. **Run with custom implementation** (default mode)
+   - Click "Run All Scenarios" to test all 12 scenarios
+   - Observe the decisions and outcomes
+
+2. **Toggle to Reference Solution** 
+   - Click the big toggle button at the top
+   - Button turns orange when using reference solution
+   - Run the same scenarios again
+
+3. **Compare Results**
+   - See which implementation completes more scenarios
+   - Compare decision strategies
+   - Analyze battery management approaches
+
+### Export Results:
+- Click "Export Results" to save performance data
+- Results saved to `output/gui_results.json` and `output/gui_metrics.json`
+- Analyze detailed metrics offline
+
+See `docs/COMPARISON.md` for behavioral analysis tips.
+
+---
+
+## Troubleshooting
+
+### Common Issues
+
+**"No module named 'yaml'" or similar import errors**
 ```bash
-# Step 1: Run your implementation (saves metrics)
-python main.py
-
-# Step 2: Run solution (automatically compares)
-python solutions/solution.py
+# Make sure you installed dependencies
+pip install -r requirements.txt
 ```
 
-You'll see:
-- Side-by-side performance metrics
-- Which approach excels at what
-- Overall winner across 6 dimensions
+**"No module named 'tkinter'" (Linux only)**
+```bash
+# Ubuntu/Debian
+sudo apt-get install python3-tk
 
-See `COMPARISON.md` for behavioral analysis and `METRICS.md` for metrics explanation.
+# Fedora
+sudo dnf install python3-tkinter
+```
 
----
+**GUI window doesn't appear or crashes**
+- Make sure you're using Python 3.8 or higher
+- On Windows, tkinter comes with Python by default
+- On Mac, tkinter comes with Python by default
+- On Linux, you need to install python3-tk separately (see above)
 
-## Advanced Extensions (Optional)
+**Files not found or import errors**
+- Make sure you're running commands from the project root directory (decision-maker/)
+- Check that all folders (core/, implementation/, solutions/) are present
 
-- Add new actions (e.g., MOVE_CLOSER, REQUEST_PERMISSION)
-- Introduce uncertainty (actions may fail)
-- Create multi-robot scenarios (coordination)
-- Build a GUI to visualize decisions
-- Implement learning from past scenarios
+**Custom implementation not working**
+- Check that `implementation/decision.py` and `implementation/scoring.py` exist
+- Make sure they contain the required functions: `choose_action()` in decision.py and `score_action()` in scoring.py
+- Try using the tuning GUI to generate valid implementation files
 
----
-
-## Credits
-
-Designed for middle school AI workshop — decision-making without ML complexity.
-
+**Parameters not loading in tuning GUI**
+- The tuning GUI will use hardcoded defaults if `config/default_params.yml` is missing
+- This is normal and expected - you can still use all features
