@@ -110,7 +110,7 @@ python solutions/solution.py
 3. How would you handle these tradeoffs?
 4. What would you change about each approach?
 
-## Workshop Goal
+## Project Goal
 
 The goal isn't to copy the solution - it's to:
 

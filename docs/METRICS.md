@@ -4,7 +4,7 @@ This document explains the metrics system used to quantitatively compare differe
 
 ## Overview
 
-The metrics system calculates six key performance indicators and combines them into an overall score. This allows you to objectively compare your AI implementation with others.
+The metrics system calculates six key performance indicators and combines them into an overall score. This allows for objective comparison between different AI implementations.
 
 ## Available Metrics
 
@@ -15,7 +15,7 @@ The metrics system calculates six key performance indicators and combines them i
 - 100% = All users helped
 - 0% = No users helped
 
-**Why it matters:** The primary goal is helping users. High success rate means your AI completes its mission.
+**Why it matters:** The primary goal is helping users. High success rate means the AI completes its mission.
 
 ---
 
@@ -157,18 +157,18 @@ When comparing two implementations, you'll see:
   COMPARATIVE ANALYSIS
 ================================================================================
 
-Metric                   Your AI         vs    Solution AI     Winner
+Metric                   Custom AI       vs    Solution AI     Winner
 --------------------------------------------------------------------------------
 Success Rate             100.0%          vs    100.0%          TIE
 Battery Efficiency        85.0%          vs    92.0%           Solution AI (-7.0)
-Urgency Response          90.0%          vs    88.0%           Your AI (+2.0)
-Risk Management           95.0%          vs    90.0%           Your AI (+5.0)
+Urgency Response          90.0%          vs    88.0%           Custom AI (+2.0)
+Risk Management           95.0%          vs    90.0%           Custom AI (+5.0)
 Task Completion          100.0%          vs    100.0%          TIE
-Overall Score             93.5%          vs    93.0%           Your AI (+0.5)
+Overall Score             93.5%          vs    93.0%           Custom AI (+0.5)
 --------------------------------------------------------------------------------
 
 Results: 2 wins, 1 loss, 2 ties
-Your AI outperforms the comparison!
+Custom AI outperforms the comparison!
 ================================================================================
 ```
 
@@ -179,18 +179,18 @@ Your AI outperforms the comparison!
 Different AI strategies will excel at different metrics:
 
 **Conservative AI (Safety-First)**
-- ✅ High Risk Management
-- ✅ High Battery Efficiency
-- ❌ Lower Urgency Response (recharged when could help)
+- High Risk Management
+- High Battery Efficiency
+- Lower Urgency Response (recharged when could help)
 
 **Aggressive AI (User-First)**
-- ✅ High Urgency Response
-- ✅ High Success Rate
-- ❌ Lower Risk Management (takes chances with battery)
+- High Urgency Response
+- High Success Rate
+- Lower Risk Management (takes chances with battery)
 
 **Balanced AI**
-- ✅ Good Overall Score
-- ❌ May not excel in any single category
+- Good Overall Score
+- May not excel in any single category
 
 **There's no objectively "best" approach!** The right balance depends on:
 - The context (hospital robot vs. household robot)
