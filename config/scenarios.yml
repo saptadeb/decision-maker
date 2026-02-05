@@ -1,0 +1,215 @@
+# Test Scenarios for Assistive Robot Decision-Making System
+# Each scenario tests different aspects of the AI decision-making
+
+scenarios:
+  # Standard test scenarios (used by test_comparison.py)
+  - name: "Balanced Start"
+    description: "Standard operating conditions - moderate battery and low urgency"
+    battery: 50
+    user_urgency: 1
+    distance_to_user: 5.0
+    distance_to_charger: 10.0
+    time_pressure: false
+    max_steps: 8
+
+  - name: "Low Battery Crisis"
+    description: "Managing critical battery with urgent user needs"
+    battery: 25
+    user_urgency: 2
+    distance_to_user: 3.0
+    distance_to_charger: 15.0
+    time_pressure: true
+    max_steps: 6
+
+  - name: "Critical Battery"
+    description: "Very low battery with user waiting"
+    battery: 15
+    user_urgency: 1
+    distance_to_user: 8.0
+    distance_to_charger: 5.0
+    time_pressure: false
+    max_steps: 8
+
+  - name: "Urgent User Good Battery"
+    description: "Critical user needs with plenty of battery"
+    battery: 80
+    user_urgency: 3
+    distance_to_user: 2.0
+    distance_to_charger: 20.0
+    time_pressure: true
+    max_steps: 6
+
+  - name: "High Urgency"
+    description: "High urgency user with moderate battery"
+    battery: 60
+    user_urgency: 2
+    distance_to_user: 5.0
+    distance_to_charger: 8.0
+    time_pressure: false
+    max_steps: 7
+
+  - name: "Very Low Battery"
+    description: "Operating at very low battery levels"
+    battery: 18
+    user_urgency: 1
+    distance_to_user: 5.0
+    distance_to_charger: 3.0
+    time_pressure: false
+    max_steps: 7
+
+  - name: "Critical Urgency"
+    description: "Critical urgency with moderate battery"
+    battery: 40
+    user_urgency: 3
+    distance_to_user: 4.0
+    distance_to_charger: 10.0
+    time_pressure: true
+    max_steps: 5
+
+  - name: "Near Charger"
+    description: "Low battery but charger is very close"
+    battery: 30
+    user_urgency: 1
+    distance_to_user: 15.0
+    distance_to_charger: 2.0
+    time_pressure: false
+    max_steps: 8
+
+  - name: "Near User"
+    description: "User is very close with moderate battery"
+    battery: 35
+    user_urgency: 2
+    distance_to_user: 1.0
+    distance_to_charger: 20.0
+    time_pressure: false
+    max_steps: 6
+
+  - name: "Good Conditions"
+    description: "Optimal conditions for testing efficiency"
+    battery: 70
+    user_urgency: 1
+    distance_to_user: 5.0
+    distance_to_charger: 5.0
+    time_pressure: false
+    max_steps: 6
+
+  - name: "Low Battery Low Urgency"
+    description: "Low battery with low urgency - efficiency test"
+    battery: 22
+    user_urgency: 1
+    distance_to_user: 10.0
+    distance_to_charger: 5.0
+    time_pressure: false
+    max_steps: 8
+
+  - name: "Efficiency Test"
+    description: "Long scenario testing resource management"
+    battery: 55
+    user_urgency: 1
+    distance_to_user: 3.0
+    distance_to_charger: 12.0
+    time_pressure: false
+    max_steps: 10
+
+  # Additional GUI scenarios
+  - name: "Empty Battery Recovery"
+    description: "Nearly depleted battery with no urgency"
+    battery: 5
+    user_urgency: 0
+    distance_to_user: 10.0
+    distance_to_charger: 3.0
+    time_pressure: false
+    max_steps: 6
+
+  - name: "High Urgency Far Charger"
+    description: "Critical urgency but charger is very far"
+    battery: 40
+    user_urgency: 3
+    distance_to_user: 2.0
+    distance_to_charger: 25.0
+    time_pressure: true
+    max_steps: 8
+
+  - name: "Multiple Needs"
+    description: "Multiple competing priorities"
+    battery: 60
+    user_urgency: 2
+    distance_to_user: 8.0
+    distance_to_charger: 8.0
+    time_pressure: true
+    max_steps: 10
+
+  - name: "Full Battery Efficiency"
+    description: "Testing efficiency with full battery"
+    battery: 100
+    user_urgency: 1
+    distance_to_user: 15.0
+    distance_to_charger: 15.0
+    time_pressure: false
+    max_steps: 12
+
+  - name: "Close to Charger"
+    description: "Low battery but charger within reach"
+    battery: 20
+    user_urgency: 2
+    distance_to_user: 10.0
+    distance_to_charger: 2.0
+    time_pressure: true
+    max_steps: 8
+
+  - name: "Close to User"
+    description: "Critical user very close with low battery"
+    battery: 30
+    user_urgency: 3
+    distance_to_user: 1.0
+    distance_to_charger: 20.0
+    time_pressure: true
+    max_steps: 6
+
+  - name: "Moderate Everything"
+    description: "All parameters at moderate levels"
+    battery: 50
+    user_urgency: 2
+    distance_to_user: 10.0
+    distance_to_charger: 10.0
+    time_pressure: true
+    max_steps: 10
+
+  - name: "Low Urgency Low Battery"
+    description: "Low urgency with limited battery"
+    battery: 20
+    user_urgency: 1
+    distance_to_user: 5.0
+    distance_to_charger: 8.0
+    time_pressure: false
+    max_steps: 8
+
+# Scenario sets for different purposes
+scenario_sets:
+  standard:
+    - "Balanced Start"
+    - "Low Battery Crisis"
+    - "Critical Battery"
+    - "Urgent User Good Battery"
+    - "High Urgency"
+    - "Very Low Battery"
+    - "Critical Urgency"
+    - "Near Charger"
+    - "Near User"
+    - "Good Conditions"
+    - "Low Battery Low Urgency"
+    - "Efficiency Test"
+  
+  gui_full:
+    - "Balanced Start"
+    - "Low Battery Crisis"
+    - "Critical Battery"
+    - "Urgent User Good Battery"
+    - "Empty Battery Recovery"
+    - "High Urgency Far Charger"
+    - "Multiple Needs"
+    - "Full Battery Efficiency"
+    - "Close to Charger"
+    - "Close to User"
+    - "Moderate Everything"
+    - "Low Urgency Low Battery"

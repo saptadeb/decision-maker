@@ -22,6 +22,7 @@ from implementation.decision import choose_action as impl_choose_action
 from solutions.solution_decision import choose_action as solution_choose_action
 from core.constraints import is_action_allowed, get_constraint_warnings
 from core.metrics import PerformanceMetrics
+from config.scenarios import load_scenarios
 
 
 class ToggleSwitch(tk.Canvas):
@@ -306,33 +307,8 @@ class RobotSimulatorGUI:
                  font=('TkDefaultFont', 9, 'bold')).grid(row=8, column=0, columnspan=2, 
                                                          sticky=tk.W, pady=(0, 5))
         
-        # Define preset scenarios with more variety
-        self.presets = [
-            ("Balanced Start", RobotState(battery=50, user_urgency=1, distance_to_user=5.0, 
-                                         distance_to_charger=10.0), 8),
-            ("Low Battery Crisis", RobotState(battery=25, user_urgency=2, distance_to_user=3.0,
-                                             distance_to_charger=15.0, time_pressure=True), 6),
-            ("Critical Battery", RobotState(battery=15, user_urgency=1, distance_to_user=8.0,
-                                           distance_to_charger=5.0), 8),
-            ("Urgent User - Good Battery", RobotState(battery=80, user_urgency=3, distance_to_user=2.0,
-                                                      distance_to_charger=20.0, time_pressure=True), 6),
-            ("Empty Battery Recovery", RobotState(battery=5, user_urgency=0, distance_to_user=10.0,
-                                                  distance_to_charger=3.0), 6),
-            ("High Urgency - Far Charger", RobotState(battery=40, user_urgency=3, distance_to_user=2.0,
-                                                      distance_to_charger=25.0, time_pressure=True), 8),
-            ("Multiple Needs", RobotState(battery=60, user_urgency=2, distance_to_user=8.0,
-                                         distance_to_charger=8.0, time_pressure=True), 10),
-            ("Efficiency Test", RobotState(battery=100, user_urgency=1, distance_to_user=15.0,
-                                          distance_to_charger=15.0), 12),
-            ("Close to Charger", RobotState(battery=20, user_urgency=2, distance_to_user=10.0,
-                                           distance_to_charger=2.0, time_pressure=True), 8),
-            ("Close to User", RobotState(battery=30, user_urgency=3, distance_to_user=1.0,
-                                        distance_to_charger=20.0, time_pressure=True), 6),
-            ("Moderate Everything", RobotState(battery=50, user_urgency=2, distance_to_user=10.0,
-                                              distance_to_charger=10.0, time_pressure=True), 10),
-            ("Low Urgency - Low Battery", RobotState(battery=20, user_urgency=1, distance_to_user=5.0,
-                                                     distance_to_charger=8.0), 8),
-        ]
+        # Load preset scenarios from configuration
+        self.presets = load_scenarios('gui_full')
         
         # Create buttons for each preset
         for i, (name, state, max_steps) in enumerate(self.presets):

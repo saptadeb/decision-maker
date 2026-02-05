@@ -33,6 +33,7 @@ from core.actions import Action
 from core.simulator import RobotSimulator
 from core.metrics import PerformanceMetrics
 from core.constraints import is_action_allowed
+from config.scenarios import load_scenarios
 
 # Import both implementations
 from implementation import decision as impl_decision
@@ -99,21 +100,8 @@ def run_scenario_with_implementation(name: str, initial_state: RobotState,
 
 
 def get_test_scenarios():
-    """Define all test scenarios."""
-    return [
-        ("Balanced Start", RobotState(battery=50, user_urgency=1, distance_to_user=5.0, distance_to_charger=10.0), 8),
-        ("Low Battery Crisis", RobotState(battery=25, user_urgency=2, distance_to_user=3.0, distance_to_charger=15.0, time_pressure=True), 6),
-        ("Critical Battery", RobotState(battery=15, user_urgency=1, distance_to_user=8.0, distance_to_charger=5.0), 8),
-        ("Urgent User Good Battery", RobotState(battery=80, user_urgency=3, distance_to_user=2.0, distance_to_charger=20.0, time_pressure=True), 6),
-        ("High Urgency", RobotState(battery=60, user_urgency=2, distance_to_user=5.0, distance_to_charger=8.0), 7),
-        ("Very Low Battery", RobotState(battery=18, user_urgency=1, distance_to_user=5.0, distance_to_charger=3.0), 7),
-        ("Critical Urgency", RobotState(battery=40, user_urgency=3, distance_to_user=4.0, distance_to_charger=10.0, time_pressure=True), 5),
-        ("Near Charger", RobotState(battery=30, user_urgency=1, distance_to_user=15.0, distance_to_charger=2.0), 8),
-        ("Near User", RobotState(battery=35, user_urgency=2, distance_to_user=1.0, distance_to_charger=20.0), 6),
-        ("Good Conditions", RobotState(battery=70, user_urgency=1, distance_to_user=5.0, distance_to_charger=5.0), 6),
-        ("Low Battery Low Urgency", RobotState(battery=22, user_urgency=1, distance_to_user=10.0, distance_to_charger=5.0), 8),
-        ("Efficiency Test", RobotState(battery=55, user_urgency=1, distance_to_user=3.0, distance_to_charger=12.0), 10),
-    ]
+    """Load all test scenarios from configuration."""
+    return load_scenarios('standard')
 
 
 def main():
